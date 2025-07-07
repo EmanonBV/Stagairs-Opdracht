@@ -10,7 +10,7 @@
    - Open de Test Explorer via de menubalk: `Test` -> `Test Explorer`.
 
 3. **Testen uitvoeren**
-   - Voer de tests uit in de Test Explorer om te zien welke tests al zijn geïmplementeerd en welke nog niet.
+   - Voer de tests uit in de Test Explorer om te zien welke tests al zijn geÃ¯mplementeerd en welke nog niet.
    - De unit tests zijn net als de rest van de code geschreven in C# en bevinden zich in het project `EmanonPortfolio.Tests`.
 
 4. **Begin met de Transaction-klasse**
@@ -18,14 +18,15 @@
 
 5. **Werk verder in Portfolio**
    - Ga daarna verder met het bestand `Portfolio.cs` (`EmanonPortfolio\Classes\Portfolio.cs`).
-   - Werk van boven naar beneden: begin bij de eerste niet-geïmplementeerde property/methode en werk ze één voor één af.
+   - Werk van boven naar beneden: begin bij de eerste niet-geÃ¯mplementeerde property/methode en werk ze Ã©Ã©n voor Ã©Ã©n af.
 
-6. **Tijdslimiet**
-   - Werk maximaal één dag aan deze opdracht. Het is een test om te zien hoever je komt.
+6. **Afspraken**
+   - Werk maximaal paar uur aan deze opdracht. Het is een test om te zien hoever je komt.
+   - Maak geen gebruik van generatieve AI tools (ChatGPT, CoPilot, etc) het gaat ons hier om wat je zelf kan, niet hoe je om kunt gaan met dit soort tools.
    - Het is niet erg als je niet alles af hebt. Lever gewoon in wat je hebt.
 
 7. **Inleveren**
-   - Kijk of alle tests die je hebt geïmplementeerd nu slagen.
+   - Kijk of alle tests die je hebt geÃ¯mplementeerd nu slagen.
    - Check of je de code hebt gecommit en gepusht naar je eigen (lokale) repository.
    - Lever je werk in door:
      - Een pull request te maken op de originele repository, **of**
