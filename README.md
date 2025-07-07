@@ -21,7 +21,7 @@
    - Werk van boven naar beneden: begin bij de eerste niet-geïmplementeerde property/methode en werk ze één voor één af.
 
 6. **Afspraken**
-   - Werk maximaal paar uur aan deze opdracht. Het is een test om te zien hoever je komt.
+   - Werk maximaal een paar uur aan deze opdracht. Het is een test om te zien hoever je komt.
    - Maak geen gebruik van generatieve AI tools (ChatGPT, CoPilot, etc) het gaat ons hier om wat je zelf kan, niet hoe je om kunt gaan met dit soort tools.
    - Het is niet erg als je niet alles af hebt. Lever gewoon in wat je hebt.
 
