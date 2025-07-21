@@ -48,6 +48,8 @@ namespace Emanon_Portfolio.Classes
                 // We geven de pNumberDecimals als parameter niet mee in de Amount methode van Transaction,
                 // om te voorkomen dat we bij elke interatie een Math.Round moeten uitvoeren.
                 // In plaats daarvan ronden we de totale waarde 1 keer af.
+
+                // Als we veel moeten afronden, kan het eindresultaat daardoor anders worden.
                 return Math.Round(Transactions.Sum(t => t.Amount()), pNumberDecimals.Value);
             }
             return Transactions.Sum(t => t.Amount());
