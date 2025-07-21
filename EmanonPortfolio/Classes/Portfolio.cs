@@ -29,8 +29,7 @@ namespace Emanon_Portfolio.Classes
         {
             get
             {
-                #warning Implementeer dit kenmerk
-                return 0;
+                return Transactions.Sum(t => t.NumberShares);
             }
         }
 
@@ -44,14 +43,22 @@ namespace Emanon_Portfolio.Classes
         // ---------------------------------------------------------------------------------------------------
         public decimal TotalValue(int? pNumberDecimals = 2)
         {
-            #warning Implementeer deze methode
-            return 0m;
+            if (pNumberDecimals != null)
+            {
+                // We geven de pNumberDecimals als parameter niet mee in de Amount methode van Transaction,
+                // om te voorkomen dat we bij elke interatie een Math.Round moeten uitvoeren.
+                // In plaats daarvan ronden we de totale waarde 1 keer af.
+
+                // Als we veel moeten afronden, kan het eindresultaat daardoor anders worden.
+                return Math.Round(Transactions.Sum(t => t.Amount()), pNumberDecimals.Value);
+            }
+            return Transactions.Sum(t => t.Amount());
         }
 
 
         // ---------------------------------------------------------------------------------------------------
         // Methode: NumberOnDate
-        // Doel   : Opleveren van het aantal aandelen in het portfolio op de gegeven datum.
+        // Doel   : Opleveren van het aantal aandelen in het portfolio tot en met de gegeven datum.
         // TODO   : Dit kenmerk kent een optionele parameter pShareTypes, indien deze parameter gevuld is
         //          dienen alleen transacties met een ShareType in de lijst meegenomen te worden in
         //          de berekening van het aantal aandelen.
@@ -59,14 +66,21 @@ namespace Emanon_Portfolio.Classes
         public int NumberOnDate(DateTime pSelectionDate
                               , List<Constants.ShareType>? pShareTypes = null)
         {
-            #warning Implementeer deze methode
-            return 0;
+            if (pShareTypes != null && pShareTypes.Count > 0)
+            {
+                return Transactions
+                    .Where(t => t.TransactionDate <= pSelectionDate && pShareTypes.Contains(t.ShareType))
+                    .Sum(t => t.NumberShares);
+            }
+            return Transactions
+                    .Where(t => t.TransactionDate <= pSelectionDate)
+                    .Sum(t => t.NumberShares);
         }
 
 
         // ---------------------------------------------------------------------------------------------------
         // Methode: ValueOnDate
-        // Doel   : Opleveren van de waarde van de aandelen in het portfolio op de gegeven datum.
+        // Doel   : Opleveren van de waarde van de aandelen in het portfolio tot en met de gegeven datum.
         // TODO   : Dit kenmerk kent een optionele parameter pNumberDecimals die bepaalt op hoeveel decimalen
         //          de waarde wordt afgerond, indien null wordt de waarde niet afgerond.
         //          Ook kent het kenmerk een optionele parameter pShareTypes, indien deze parameter gevuld is
@@ -77,8 +91,21 @@ namespace Emanon_Portfolio.Classes
                                  , int? pNumberDecimals = 2
                                  , List<Constants.ShareType>? pShareTypes = null)
         {
-            #warning Implementeer deze methode
-            return 0m;
+            decimal valueOnDate = -1;
+
+            valueOnDate = pShareTypes != null && pShareTypes.Count > 0 ?
+                Transactions
+                    .Where(t => t.TransactionDate <= pSelectionDate && pShareTypes.Contains(t.ShareType))
+                    .Select(t => t.Amount())
+                    .Sum() :
+                Transactions
+                    .Where(t => t.TransactionDate <= pSelectionDate)
+                    .Select(t => t.Amount())
+                    .Sum();
+
+            return pNumberDecimals != null
+                ? Math.Round(valueOnDate, pNumberDecimals.Value)
+                : valueOnDate;
         }
         #endregion
 
