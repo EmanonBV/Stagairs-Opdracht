@@ -40,15 +40,15 @@ namespace Emanon_Portfolio_Tests.ClassesTests
         {
              _testTransactionData = new() {
                  new(NumberShares: 10
-                   , SharesRate: 150.50m
+                   , SharesRate: 150.504m
                    , TransactionDate: new DateTime(2023, 10, 1)
                    , ShareType: Constants.ShareType.AAPL)
                , new(NumberShares: 37
-                   , SharesRate: 212.65m
+                   , SharesRate: 212.653m
                    , TransactionDate: new DateTime(2023, 10, 16)
                    , ShareType: Constants.ShareType.AMZN)
                , new(NumberShares: -5
-                   , SharesRate: 155.00m
+                   , SharesRate: 155.002m
                    , TransactionDate: new DateTime(2023, 11, 2)
                    , ShareType: Constants.ShareType.AAPL)
                , new(NumberShares: 8
