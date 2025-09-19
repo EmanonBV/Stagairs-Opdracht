@@ -6,6 +6,8 @@
 //   2025-06-26/001: Nieuw. (Sofie)
 //   ---------------------------------------------------------------------------------------------------------
 
+using System.Transactions;
+
 namespace Emanon_Portfolio.Classes
 {
     public class Portfolio
@@ -29,8 +31,14 @@ namespace Emanon_Portfolio.Classes
         {
             get
             {
-                #warning Implementeer dit kenmerk
-                return 0;
+                
+                int totalNumber = 0;
+                
+                foreach (Transaction transaction in Transactions)
+                {
+                    totalNumber += transaction.NumberShares;
+                }
+                return totalNumber;
             }
         }
 
@@ -44,8 +52,14 @@ namespace Emanon_Portfolio.Classes
         // ---------------------------------------------------------------------------------------------------
         public decimal TotalValue(int? pNumberDecimals = 2)
         {
-            #warning Implementeer deze methode
-            return 0m;
+            decimal totalValue = 0;
+
+            foreach (Transaction transaction in Transactions)
+            {
+                totalValue += transaction.Amount(pNumberDecimals);
+            }
+
+            return totalValue;
         }
 
 
@@ -59,8 +73,25 @@ namespace Emanon_Portfolio.Classes
         public int NumberOnDate(DateTime pSelectionDate
                               , List<Constants.ShareType>? pShareTypes = null)
         {
-            #warning Implementeer deze methode
-            return 0;
+            int totalNumber = 0;
+
+            foreach (Transaction transaction in Transactions)
+            {
+                if (transaction.TransactionDate.CompareTo(pSelectionDate) <= 0)
+                {
+                    if (pShareTypes == null)
+                    {
+                        totalNumber += transaction.NumberShares;
+                        continue;
+                    }
+                    else if (pShareTypes.Contains(transaction.ShareType))
+                    {
+                        totalNumber += transaction.NumberShares;
+                    }
+                }
+            }
+
+            return totalNumber;
         }
 
 
@@ -77,8 +108,25 @@ namespace Emanon_Portfolio.Classes
                                  , int? pNumberDecimals = 2
                                  , List<Constants.ShareType>? pShareTypes = null)
         {
-            #warning Implementeer deze methode
-            return 0m;
+            decimal totalValueOnDate = 0;
+
+            foreach (Transaction transaction in Transactions)
+            {
+                if (transaction.TransactionDate.CompareTo(pSelectionDate) <= 0)
+                {
+                    if (pShareTypes == null)
+                    {
+                        totalValueOnDate += transaction.Amount(pNumberDecimals);
+                        continue;
+                    }
+                    else if (pShareTypes.Contains(transaction.ShareType))
+                    {
+                        totalValueOnDate += transaction.Amount(pNumberDecimals);
+                    }
+                }
+            }
+
+            return totalValueOnDate;
         }
         #endregion
 

@@ -49,8 +49,12 @@ namespace Emanon_Portfolio.Classes
         // ---------------------------------------------------------------------------------------------------
         public decimal Amount(int? pNumberDecimals = 2)
         {
-            #warning Implementeer deze methode
-            return 0m;
+            decimal TransactionAmount = NumberShares * SharesRate;
+            if (pNumberDecimals != null)
+            {
+                return decimal.Round(TransactionAmount, (int)pNumberDecimals);
+            }
+            return TransactionAmount;
         }
         #endregion
 
