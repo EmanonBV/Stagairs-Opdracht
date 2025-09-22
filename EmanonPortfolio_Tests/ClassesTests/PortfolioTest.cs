@@ -40,19 +40,19 @@ namespace Emanon_Portfolio_Tests.ClassesTests
         {
              _testTransactionData = new() {
                  new(NumberShares: 10
-                   , SharesRate: 150.504m
+                   , SharesRate: 150.504234m
                    , TransactionDate: new DateTime(2023, 10, 1)
                    , ShareType: Constants.ShareType.AAPL)
                , new(NumberShares: 37
-                   , SharesRate: 212.653m
+                   , SharesRate: 212.653213m
                    , TransactionDate: new DateTime(2023, 10, 16)
                    , ShareType: Constants.ShareType.AMZN)
                , new(NumberShares: -5
-                   , SharesRate: 155.002m
+                   , SharesRate: 155.002213m
                    , TransactionDate: new DateTime(2023, 11, 2)
                    , ShareType: Constants.ShareType.AAPL)
                , new(NumberShares: 8
-                   , SharesRate: 720.18m
+                   , SharesRate: 720.181231m
                    , TransactionDate: new DateTime(2023, 11, 10)
                    , ShareType: Constants.ShareType.TSLA)
                , new(NumberShares: 12
@@ -60,19 +60,19 @@ namespace Emanon_Portfolio_Tests.ClassesTests
                    , TransactionDate: new DateTime(2023, 12, 5)
                    , ShareType: Constants.ShareType.MSFT)
                , new(NumberShares: -3
-                   , SharesRate: 215.00m
+                   , SharesRate: 215.000000m
                    , TransactionDate: new DateTime(2023, 12, 15)
                    , ShareType: Constants.ShareType.AMZN)
                , new(NumberShares: 4
-                   , SharesRate: 410.29m
+                   , SharesRate: 410.291241m
                    , TransactionDate: new DateTime(2024, 1, 3)
                    , ShareType: Constants.ShareType.NFLX)
                , new(NumberShares: 2
-                   , SharesRate: 152.00m
+                   , SharesRate: 152.000000m
                    , TransactionDate: new DateTime(2024, 1, 10)
                    , ShareType: Constants.ShareType.AAPL)
                , new(NumberShares: -12
-                   , SharesRate: 282.27m
+                   , SharesRate: 282.271234m
                    , TransactionDate: new DateTime(2024, 1, 18)
                    , ShareType: Constants.ShareType.MSFT)
              };
@@ -189,13 +189,13 @@ namespace Emanon_Portfolio_Tests.ClassesTests
 
 
         // ---------------------------------------------------------------------------------------------------
-        // Methode: Portfolio_AmountOnDate_IsCorrect
+        // Methode: Portfolio_ValueOnDate_IsCorrect
         // Doel   : Testen of de waarde van de aandelen binnen de gegeven type stukken op de gegeven datum
         //          goed worden berekend.
         // ---------------------------------------------------------------------------------------------------
         [Theory]
         [MemberData(nameof(GetShareTypeTestData))]
-        public void Portfolio_AmountOnDate_IsCorrect(Constants.ShareType[]? pShareTypes
+        public void Portfolio_ValueOnDate_IsCorrect(Constants.ShareType[]? pShareTypes
                                                    , DateTime pSelectionDate)
         {
             // Arrange
@@ -207,24 +207,26 @@ namespace Emanon_Portfolio_Tests.ClassesTests
                .ToList();
             var tmpShareTypes = pShareTypes?.ToList();
             var tmpPortfolio = new Portfolio(pTransactions: tmpTestTransactions);
-            var tmpNumberDecimals = new Random().Next(1, 6);
 
-            // Act
-            var tmpExpectedValue = _testTransactionData.Where(t => (pShareTypes == null
-                                                                 || pShareTypes.Contains(t.ShareType))
-                                                                && t.TransactionDate <= pSelectionDate)
-                                  .Sum(t => t.NumberShares * t.SharesRate);
-            var tmpExpectedValueRounded = Math.Round(d: tmpExpectedValue, decimals: tmpNumberDecimals);
-            var tmpValue = tmpPortfolio.ValueOnDate(pSelectionDate: pSelectionDate
-                                                  , pShareTypes: tmpShareTypes
-                                                  , pNumberDecimals: null);
-            var tmpValueRounded = tmpPortfolio.ValueOnDate(pSelectionDate: pSelectionDate
-                                                         , pShareTypes: tmpShareTypes
-                                                         , pNumberDecimals: tmpNumberDecimals);
+            for (int tmpNumberDecimals = 0; tmpNumberDecimals <= 6; tmpNumberDecimals++)
+            {
+                // Act
+                var tmpExpectedValue = _testTransactionData.Where(t => (pShareTypes == null
+                                                                     || pShareTypes.Contains(t.ShareType))
+                                                                    && t.TransactionDate <= pSelectionDate)
+                                      .Sum(t => t.NumberShares * t.SharesRate);
+                var tmpExpectedValueRounded = Math.Round(d: tmpExpectedValue, decimals: tmpNumberDecimals);
+                var tmpValue = tmpPortfolio.ValueOnDate(pSelectionDate: pSelectionDate
+                                                      , pShareTypes: tmpShareTypes
+                                                      , pNumberDecimals: null);
+                var tmpValueRounded = tmpPortfolio.ValueOnDate(pSelectionDate: pSelectionDate
+                                                             , pShareTypes: tmpShareTypes
+                                                             , pNumberDecimals: tmpNumberDecimals);
 
-            // Assert
-            tmpValue.Should().Be(tmpExpectedValue);
-            tmpValueRounded.Should().Be(tmpExpectedValueRounded);
+                // Assert
+                tmpValue.Should().Be(tmpExpectedValue);
+                tmpValueRounded.Should().Be(tmpExpectedValueRounded);
+            }
         }
 
 
@@ -243,18 +245,20 @@ namespace Emanon_Portfolio_Tests.ClassesTests
                                           , pShareType: t.ShareType))
                .ToList();
             var tmpPortfolio = new Portfolio(pTransactions: tmpTestTransactions);
-            var tmpNumberDecimals = new Random().Next(1, 6);
 
-            // Act
-            var tmpExpectedValue = _testTransactionData
+            for (int tmpNumberDecimals = 0; tmpNumberDecimals <= 6; tmpNumberDecimals++)
+            {
+                // Act
+                var tmpExpectedValue = _testTransactionData
                                   .Sum(t => t.NumberShares * t.SharesRate);
-            var tmpExpectedValueRounded = Math.Round(d: tmpExpectedValue, decimals: tmpNumberDecimals);
-            var tmpValue = tmpPortfolio.TotalValue(pNumberDecimals: null);
-            var tmpValueRounded = tmpPortfolio.TotalValue(pNumberDecimals: tmpNumberDecimals);
+                var tmpExpectedValueRounded = Math.Round(d: tmpExpectedValue, decimals: tmpNumberDecimals);
+                var tmpValue = tmpPortfolio.TotalValue(pNumberDecimals: null);
+                var tmpValueRounded = tmpPortfolio.TotalValue(pNumberDecimals: tmpNumberDecimals);
 
-            // Assert
-            tmpValue.Should().Be(tmpExpectedValue);
-            tmpValueRounded.Should().Be(tmpExpectedValueRounded);
+                // Assert
+                tmpValue.Should().Be(tmpExpectedValue);
+                tmpValueRounded.Should().Be(tmpExpectedValueRounded);
+            }
         }
         #endregion
     }
